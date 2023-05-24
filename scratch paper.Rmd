@@ -21,9 +21,9 @@ library(ggeffects)
 library(performance)
 library(ggmice)
 library(huxtable) 
-library(car)
 library(broom)
 library(corrplot)
+library(GGally)
 ```
 
 ```{r}
@@ -35,9 +35,88 @@ plant <- read_csv(here("data", "knb-lter-hfr.109.18","hf109-01-sarracenia.csv"))
 ```
 
 
-```{r}
+```{r visualize-missing-data}
 plot_pattern(plant)
 ```
+
+```{r subset-drop-NA}
+plant_subset <- plant %>% 
+  drop_na(sla,chlorophyll, amass, num_lvs, num_phylls)
+```
+
+create a correlation plot:
+
+(example writing) To determine the relationships between numerical variables in our dataset, we calculated Pearsons r and visually represented correlation using a correlation plot.
+
+```{r correlation-plot}
+#calculate pearsons r only for numeric values only
+plant_cor <- plant_subset %>% 
+  select(feedlevel:num_phylls) %>% 
+  cor(method = "pearson")
+  
+#creating a correlation plot
+corrplot(plant_cor,
+         #change the shape of what's in the cells
+         #angle of ellipse shows relationship: all point to right is postive, to left is negative
+         method = "ellipse",
+         addCoef.col = "black"
+         )
+```
+
+Create a plot fo each variable compared against the others
+
+```{r pairs-plot}
+plant_subset %>% 
+  select(species:num_phylls) %>% 
+  ggpairs()
+```
+
+starting regression here:
+
+(example) To determine how species and physiological characteristics predict biomass, we fit multiple linear models. 
+
+```{r null-and-full-problem}
+#to specifiy null model, use 1 as predictor (because no actual predictors, just intercept)
+null <- lm(totmass ~ 1, data = plant_subset)
+full <- lm(totmass ~ species + feedlevel + sla + chlorophyll + amass + num_lvs + num_phylls, data = plant_subset)
+```
+
+
+We visually assess normality and homoskedasticity of residuals using diagnostic plots for the full model:
+
+```{r full-diagnostics}
+par(mfrow = c(2,2))
+plot(full)
+```
+
+Residuals vs Fitted plot: condensed at left end and spread on right - heterskedastic
+
+We also tested for normality using the Shapiro-Wilk test (null hypothesis: variable of interest, ie.residuals, are normally distributed).
+
+We tested for heterskedasticity using the Breusch-Pagan test (null hypothesis: variable of interest has constant variance (the resduals)).
+```{r}
+check_normality(full)
+check_heteroscedasticity(full)
+```
+
+
+```{r}
+full_log <- lm(log(totmass) ~ species + feedlevel + sla + chlorophyll + amass + num_lvs + num_phylls, data = plant_subset)
+
+plot(full_log)
+check_normality(full_log)
+check_heteroscedasticity(full_log)
+```
+
+
+
+
+
+
+
+
+
+
 
 
 
