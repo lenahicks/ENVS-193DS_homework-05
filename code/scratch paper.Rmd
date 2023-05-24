@@ -1,0 +1,14 @@
+---
+title: "scratch paper"
+author: "Lena Hicks"
+date: "May 24, 2023"
+output: 
+  html_document:
+    toc: true
+    code_folding: hide 
+    theme: yeti
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, message = FALSE, warning = FALSE)
+```

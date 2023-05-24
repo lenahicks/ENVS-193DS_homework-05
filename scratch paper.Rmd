@@ -1,0 +1,43 @@
+---
+title: "scratch paper"
+author: "Lena Hicks"
+date: "May 24, 2023"
+output: 
+  html_document:
+    toc: true
+    code_folding: hide 
+    theme: yeti
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, message = FALSE, warning = FALSE)
+```
+
+```{r}
+library(tidyverse)
+library(here)
+library(janitor)
+library(ggeffects)
+library(performance)
+library(ggmice)
+library(huxtable) 
+library(car)
+library(broom)
+library(corrplot)
+```
+
+```{r}
+plant <- read_csv(here("data", "knb-lter-hfr.109.18","hf109-01-sarracenia.csv")) %>% 
+  #make column names cleaner
+  clean_names() %>% 
+  #selecting the columns of interest
+  select(totmass, species, feedlevel, sla, chlorophyll, amass, num_lvs, num_phylls)
+```
+
+
+```{r}
+plot_pattern(plant)
+```
+
+
+
