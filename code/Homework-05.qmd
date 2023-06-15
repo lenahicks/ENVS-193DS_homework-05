@@ -139,13 +139,13 @@ plot(full)
 
 The normality of the variable of interest (i.e., the residuals) was also assessed using the Shapiro-Wilk test, with the null hypothesis being that the residuals are normally distributed.
 
-```{r}
+```{r full-model-normal-test}
 check_normality(full)
 ```
 
 To examine heteroskedasticity, the Breusch-Pagan test was employed, assuming a null hypothesis of constant variance for the variable of interest.
 
-```{r}
+```{r full-model-heterosk-test}
 check_heteroscedasticity(full)
 ```
 
@@ -275,7 +275,7 @@ check_heteroscedasticity(model4_log)
 
 Compare models using Akaike's Information Criterion (AIC) values:
 
-```{r}
+```{r model-comparisons}
 AICc(full_log)
 AICc(model2_log)
 AICc(model3_log)
@@ -340,7 +340,7 @@ table
 
 Model Predictions
 
-```{r}
+```{r model-predictions}
 # use ggpredict to make a model prediction using the full model, making sure to backtransform from log 10
 model_pred <- ggpredict(full_log, terms = "species", back.transform = TRUE)
 

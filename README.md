@@ -2,7 +2,9 @@
 
 This README.md was generated on 2023-06-15 by Lena Hicks
 
-Link to GitHub repository found [here]().
+Link to GitHub repository found [here](https://github.com/lenahicks/ENVS-193DS_homework-05). 
+
+Linke to rendered document found [here](https://lenahicks.github.io/ENVS-193DS_homework-05/code/Homework-05.html)
 
 ## General Information
 
